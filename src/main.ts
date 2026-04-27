@@ -6,8 +6,9 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.enableCors({
-    origin: ['https://donation-tracker-pearl.vercel.app', 'http://localhost:5173', process.env.FRONTEND_URL].filter(Boolean),
+    origin: ['https://donation-tracker-pearl.vercel.app', 'http://localhost:5173'].filter(Boolean),
     methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
   });
 
