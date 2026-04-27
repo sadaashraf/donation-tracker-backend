@@ -14,7 +14,7 @@ async function bootstrap() {
 
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
 
-  app.setGlobalPrefix('api', { exclude: ['/uploads/(.*)'] });
+  // app.setGlobalPrefix('api', { exclude: ['/uploads/(.*)'] });
 
   await app.listen(process.env.PORT ?? 3000);
   console.log(`Backend running on http://localhost:${process.env.PORT ?? 3000}`);
