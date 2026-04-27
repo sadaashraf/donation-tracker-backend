@@ -3,16 +3,19 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { existsSync, mkdirSync } from 'fs';
 import { MembersModule } from './members/members.module';
 import { PaymentsModule } from './payments/payments.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { ProfileModule } from './profile/profile.module';
 import { YearPlansModule } from './year-plans/year-plans.module';
 
+const uploadsDir = join(process.cwd(), 'uploads');
+if (!existsSync(uploadsDir)) mkdirSync(uploadsDir);
+
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-
     TypeOrmModule.forRootAsync({
       inject: [ConfigService],
       useFactory: (config: ConfigService) => {
@@ -27,6 +30,7 @@ import { YearPlansModule } from './year-plans/year-plans.module';
           database: !isProduction ? config.get('DB_NAME', 'MMS_db') : undefined,
           entities: ['dist/**/*.entity{.ts,.js}'],
           synchronize: true,
+          ssl: isProduction ? { rejectUnauthorized: false } : false,
         }
       },
     }),
