@@ -12,11 +12,22 @@ async function bootstrap() {
         'http://localhost:5173',
         'http://localhost:3000',
       ].filter(Boolean);
-      if (!origin || allowed.includes(origin) || /\.vercel\.app$/.test(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error(`CORS blocked: ${origin}`));
+
+      // allow requests with no origin (like Postman, mobile apps)
+      if (!origin) return callback(null, true);
+
+      // allow exact match
+      if (allowed.includes(origin)) {
+        return callback(null, true);
       }
+
+      // allow all vercel domains (preview + production)
+      if (/\.vercel\.app$/.test(origin)) {
+        return callback(null, true);
+      }
+
+      console.log('❌ CORS blocked:', origin);
+      return callback(new Error(`CORS blocked: ${origin}`));
     },
     methods: ['GET', 'POST', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
@@ -28,6 +39,6 @@ async function bootstrap() {
   app.setGlobalPrefix('api', { exclude: ['/uploads/(.*)'] });
 
   await app.listen(process.env.PORT ?? 3000);
-  console.log(`Backend running on http://localhost:${process.env.PORT ?? 3000}`);
+  console.log(`Backend running on port ${process.env.PORT}`);
 }
 bootstrap();
