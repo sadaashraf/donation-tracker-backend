@@ -3,27 +3,27 @@ import { IsString, IsNotEmpty, MinLength } from 'class-validator';
 export class RegisterDto {
   @IsString()
   @IsNotEmpty()
-  fullName: string;
+  fullName!: string;
 
   @IsString()
   @IsNotEmpty()
-  fatherName: string;
+  fatherName!: string;
 
   @IsString()
   @IsNotEmpty()
-  phone: string;
+  phone!: string;
 
   @IsString()
   @MinLength(6)
-  password: string;
+  password!: string;
 }
 
 export class LoginDto {
   @IsString()
   @IsNotEmpty()
-  phone: string;
+  phone!: string;
 
   @IsString()
   @IsNotEmpty()
-  password: string;
+  password!: string;
 }
