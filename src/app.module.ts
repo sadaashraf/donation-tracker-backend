@@ -9,6 +9,7 @@ import { PaymentsModule } from './payments/payments.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { ProfileModule } from './profile/profile.module';
 import { YearPlansModule } from './year-plans/year-plans.module';
+import { AuthModule } from './auth/auth.module';
 
 const uploadsDir = join(process.cwd(), 'uploads');
 if (!existsSync(uploadsDir)) mkdirSync(uploadsDir);
@@ -40,6 +41,7 @@ if (!existsSync(uploadsDir)) mkdirSync(uploadsDir);
       serveRoot: '/uploads',
     }),
 
+    AuthModule,
     MembersModule,
     PaymentsModule,
     DashboardModule,
