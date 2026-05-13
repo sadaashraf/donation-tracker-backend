@@ -1,6 +1,7 @@
 import { Injectable, ConflictException, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { User } from './user.entity';
 import { RegisterDto, LoginDto } from './auth.dto';
@@ -10,7 +11,8 @@ export class AuthService {
   constructor(
     @InjectRepository(User)
     private readonly repo: Repository<User>,
-  ) {}
+    private readonly jwtService: JwtService,
+  ) { }
 
   async register(dto: RegisterDto) {
     const existing = await this.repo.findOneBy({ phone: dto.phone });
@@ -36,7 +38,11 @@ export class AuthService {
     if (!match) throw new UnauthorizedException('Invalid phone number or password');
 
     const { password, ...result } = user;
-    return result;
+    const payload = { sub: user.id, phone: user.phone, role: user.role };
+    return {
+      access_token: this.jwtService.sign(payload),
+      // user: result,
+    };
   }
 
   findAll() {
