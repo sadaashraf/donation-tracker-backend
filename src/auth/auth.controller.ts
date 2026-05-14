@@ -4,7 +4,7 @@ import { RegisterDto, LoginDto } from './auth.dto';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly service: AuthService) {}
+  constructor(private readonly service: AuthService) { }
 
   @Post('register')
   register(@Body() dto: RegisterDto) {
@@ -19,5 +19,10 @@ export class AuthController {
   @Get('users')
   findAll() {
     return this.service.findAll();
+  }
+
+  @Post('make-admin/:id')
+  makeAdmin(@Body('id') id: number) {
+    return this.service.makeAdmin(id);
   }
 }

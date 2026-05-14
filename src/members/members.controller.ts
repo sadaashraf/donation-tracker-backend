@@ -1,10 +1,15 @@
-import { Controller, Get, Post, Patch, Delete, Param, Body, Query } from '@nestjs/common';
+import { Controller, Get, Post, Patch, Delete, Param, Body, Query, UseGuards } from '@nestjs/common';
 import { MembersService } from './members.service';
 import { CreateMemberDto, UpdateMemberDto } from './member.dto';
 import { PaymentsService } from '../payments/payments.service';
 import { YearPlansService } from '../year-plans/year-plans.service';
 import { Member } from './member.entity';
+import { AuthGuard } from '@nestjs/passport';
+import { RoleGuard } from '../auth/stategy/role.guard';
 
+
+
+@UseGuards(AuthGuard('jwt'))
 @Controller('members')
 export class MembersController {
   constructor(
@@ -13,6 +18,7 @@ export class MembersController {
     private readonly yearPlansService: YearPlansService,
   ) { }
 
+  @UseGuards(new RoleGuard(['admin']))
   @Get()
   async findAll(
     @Query('search') search?: string,
@@ -51,6 +57,8 @@ export class MembersController {
   update(@Param('id') id: string, @Body() dto: UpdateMemberDto) {
     return this.service.update(+id, dto);
   }
+
+
 
   @Delete(':id')
   remove(@Param('id') id: string) {

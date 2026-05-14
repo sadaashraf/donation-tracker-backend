@@ -1,9 +1,11 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, Query, UseGuards } from '@nestjs/common';
 import { DashboardService } from './dashboard.service';
+import { AuthGuard } from '@nestjs/passport';
 
+@UseGuards(AuthGuard('jwt'))
 @Controller('dashboard')
 export class DashboardController {
-  constructor(private readonly service: DashboardService) {}
+  constructor(private readonly service: DashboardService) { }
 
   @Get('stats')
   getStats(@Query('year') year?: string) {

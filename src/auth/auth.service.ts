@@ -48,4 +48,8 @@ export class AuthService {
   findAll() {
     return this.repo.find({ select: ['id', 'fullName', 'fatherName', 'phone', 'createdAt'] });
   }
+
+  makeAdmin(id: number) {
+    return this.repo.update(id, { role: 'admin' });
+  }
 }
