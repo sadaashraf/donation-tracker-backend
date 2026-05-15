@@ -1,24 +1,32 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { IsString, IsNumberString, IsDateString, IsOptional } from 'class-validator';
 
 export class CreatePaymentDto {
-  @IsNumberString()
-  memberId: string;
 
+  @ApiProperty()
+  @IsNumberString()
+  memberId!: string;
+
+  @ApiProperty()
   @IsString()
-  year: string;
+  year!: string;
 
+  @ApiProperty()
   @IsNumberString()
-  amount: string;
+  amount!: string;
 
+  @ApiProperty()
   @IsDateString()
-  paymentDate: string;
+  paymentDate!: string;
 }
 
 export class UpdatePaymentDto {
+  @ApiProperty()
   @IsOptional()
   @IsNumberString()
   amount?: string;
 
+  @ApiProperty()
   @IsOptional()
   @IsDateString()
   paymentDate?: string;

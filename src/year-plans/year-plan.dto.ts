@@ -1,9 +1,13 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { IsString, IsNumberString } from 'class-validator';
 
 export class CreateYearPlanDto {
-  @IsString()
-  year: string;
 
+  @ApiProperty()
+  @IsString()
+  year!: string;
+
+  @ApiProperty()
   @IsNumberString()
-  amountRequired: string;
+  amountRequired!: string;
 }
