@@ -5,9 +5,6 @@ import { PaymentsService } from '../payments/payments.service';
 import { YearPlansService } from '../year-plans/year-plans.service';
 import { Member } from './member.entity';
 import { AuthGuard } from '@nestjs/passport';
-import { RoleGuard } from '../auth/stategy/role.guard';
-
-
 
 @UseGuards(AuthGuard('jwt'))
 @Controller('members')
@@ -18,7 +15,7 @@ export class MembersController {
     private readonly yearPlansService: YearPlansService,
   ) { }
 
-  @UseGuards(new RoleGuard(['admin']))
+ 
   @Get()
   async findAll(
     @Query('search') search?: string,
