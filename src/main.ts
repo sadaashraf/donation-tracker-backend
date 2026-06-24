@@ -10,8 +10,12 @@ async function bootstrap() {
     origin: (origin, callback) => {
       const allowed = [
         process.env.FRONTEND_URL,
+        'http://localhost',
+        'http://localhost:80',
         'http://localhost:5173',
         'http://localhost:3000',
+        'http://127.0.0.1',
+        'http://127.0.0.1:80',
       ].filter(Boolean);
       if (!origin || allowed.includes(origin) || /\.vercel\.app$/.test(origin)) {
         callback(null, true);
