@@ -9,12 +9,12 @@ export class MembersService {
   constructor(
     @InjectRepository(Member)
     private readonly repo: Repository<Member>,
-  ) {}
+  ) { }
 
   findAll(search?: string) {
     const where: any = {};
     if (search) where.name = Like(`%${search}%`);
-    return this.repo.find({ where, order: { createdAt: 'DESC' } });
+    return this.repo.find({ where, order: { createdAt: 'ASC' } });
   }
 
   async findOne(id: number) {

@@ -15,7 +15,7 @@ export class MembersController {
     private readonly yearPlansService: YearPlansService,
   ) { }
 
- 
+
   @Get()
   async findAll(
     @Query('search') search?: string,
